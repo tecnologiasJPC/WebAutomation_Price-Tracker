@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver import Chrome
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -12,8 +14,8 @@ import sqlite3
 ruta = "https://www.mercadolibre.com.mx/motocicleta-chopper-italika-tc-300-negra/up/MLMU3007051693"
 
 
-def guardar_datos(fecha, precio):
-    conexion = sqlite3.connect('datos.db')
+def guardar_datos(date, price):
+    conexion = sqlite3.connect('C:/Users/john_/Documents/TrackingPrices/datos.db')
     cursor = conexion.cursor()
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS motocicleta(
@@ -21,7 +23,7 @@ def guardar_datos(fecha, precio):
     precio INTEGER
     )
     ''')
-    cursor.execute("INSERT INTO motocicleta (fecha, precio) VALUES (?, ?)", (fecha, precio))
+    cursor.execute("INSERT INTO motocicleta (fecha, precio) VALUES (?, ?)", (date, price))
     conexion.commit()
     conexion.close()
 
