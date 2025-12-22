@@ -1,20 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver import Chrome
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
-import time
 import datetime
-import tkinter as tk
 import sqlite3
 
 ruta = "https://www.mercadolibre.com.mx/motocicleta-chopper-italika-tc-300-negra/up/MLMU3007051693"
 
 
-def guardar_datos(date, price):
+def guardar_datos(date: str, price: int):
     conexion = sqlite3.connect('C:/Users/john_/Documents/TrackingPrices/datos.db')
     cursor = conexion.cursor()
     cursor.execute('''
@@ -39,7 +34,7 @@ if __name__ == '__main__':
     elemento = driver.find_element(By.CLASS_NAME, "ui-pdp-price__second-line")
     precio = elemento.text.split('\n')[1].replace(',', '')
     print(f"Este es el precio obtenido {int(precio)} en {fecha}")
-    guardar_datos(fecha, precio)
+    guardar_datos(fecha, int(precio))
     driver.quit()
     tiempo2 = datetime.datetime.now()
     delta = str(tiempo2 - tiempo1).split('.')[0]
