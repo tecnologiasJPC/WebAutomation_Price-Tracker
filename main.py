@@ -1,10 +1,10 @@
 import time
-
 from selenium import webdriver
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+import undetected_chromedriver as ch
 import datetime
 import sqlite3
 
@@ -31,9 +31,11 @@ if __name__ == '__main__':
     service = Service(ChromeDriverManager().install())
     options = webdriver.ChromeOptions()
     options.add_argument("--windows-size=1280,720")
-    driver = Chrome(service=service, options=options)
+    #options.add_argument("--headless")
+    #driver = Chrome(service=service, options=options)
+    driver = ch.Chrome(options=options)
     driver.get(ruta)
-    time.sleep(1)
+    time.sleep(2)
     elemento = driver.find_element(By.CLASS_NAME, "ui-pdp-price__second-line")
     precio = elemento.text.split('\n')[1].replace(',', '')
     print(f"Este es el precio obtenido {int(precio)} en {fecha}")
