@@ -25,14 +25,25 @@ def guardar_datos(date: str, price: int):
     conexion.close()
 
 
-if __name__ == '__main__':
-    tiempo1 = datetime.datetime.now()
-    fecha = str(tiempo1).split('.')[0]
+def time_taken(func):
+    def wrapper():
+        t1 = time.time()
+        func()
+        t2 = time.time()
+        dt = t2 - t1
+        print(f"Este proceso requirio de {int(dt)} segundos")
+    return wrapper
+
+
+@time_taken
+def open_webpages():
+    tiempo = datetime.datetime.now()
+    fecha = str(tiempo).split('.')[0]
     service = Service(ChromeDriverManager().install())
     options = webdriver.ChromeOptions()
     options.add_argument("--windows-size=1280,720")
-    #options.add_argument("--headless")
-    #driver = Chrome(service=service, options=options)
+    # options.add_argument("--headless")
+    # driver = Chrome(service=service, options=options)
     driver = ch.Chrome(options=options)
     driver.get(ruta)
     time.sleep(2)
@@ -41,6 +52,8 @@ if __name__ == '__main__':
     print(f"Este es el precio obtenido {int(precio)} en {fecha}")
     guardar_datos(fecha, int(precio))
     driver.quit()
-    tiempo2 = datetime.datetime.now()
-    delta = str(tiempo2 - tiempo1).split('.')[0]
-    print(f'Tiempo de ejecucion total {delta}')
+
+
+if __name__ == '__main__':
+    open_webpages()
+    print("Proceso conluido")
