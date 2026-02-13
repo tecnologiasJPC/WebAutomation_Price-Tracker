@@ -13,6 +13,7 @@ import sqlite3
 import time
 import os
 import sys
+import numpy as np
 
 # link for the product to be monitored
 ruta = "https://www.mercadolibre.com.mx/motocicleta-chopper-italika-tc-300-negra/up/MLMU3007051693"
@@ -59,17 +60,26 @@ def graph_data():
     df = pd.read_sql_query(query, conn)
     conn.close()
 
-    print("Estas son las columnas leidas")
-    print(df.columns)
+    x_ax = []
+    y_ax = []
+    for f in range(len(df['fecha'])):
+        if f == 0:
+            x_ax.append(df['fecha'][f].split(' ')[0])
+            y_ax.append(df['precio'][f])
+        else:
+            prev = df['fecha'][f-1].split(' ')[0]
+            now = df['fecha'][f].split(' ')[0]
+            if prev != now:
+                x_ax.append(now)
+                y_ax.append(df['precio'][f])
 
-    plt.plot(df['fecha'], df['precio'])
-    plt.xlabel('fecha')
+    plt.plot(x_ax, y_ax, label='Price data')
+    plt.xlabel('date')
     plt.xticks(rotation=90)
-    plt.ylabel('precio')
-    plt.title(f'Grafica de precio')
+    plt.ylabel('price')
+    plt.title(f'Chart of price')
     plt.tight_layout()
     plt.show()
-
 
 
 if __name__ == '__main__':
