@@ -82,6 +82,24 @@ def graph_data():
     plt.show()
 
 
+class BasePage:
+    def __init__(self, driver):
+        self.__driver = driver
+        self.__wait = WebDriverWait(driver, 3)
+
+    def find_element(self, method, name):
+        try:
+            return self.__driver.find_element(method, name)
+        except TimeoutError:
+            print(f"Element {name} is not found")
+
+    def close_page(self):
+        self.__driver.close()
+
+    def close_browser(self):
+        self.__driver.quit()
+
+
 if __name__ == '__main__':
     #open_webpages()
     graph_data()
