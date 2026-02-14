@@ -20,16 +20,11 @@ products = {'motorcycle': "https://www.mercadolibre.com.mx/motocicleta-chopper-i
             'ram': "https://www.mercadolibre.com.mx/memoria-ram-ddr5-16gb-5600mts-kingston-fury-impact-1x16gb-laptop-negro-kf556s40ib-16/p/MLM25390982"}
 
 
-# link for the product to be monitored
-ruta = "https://www.mercadolibre.com.mx/motocicleta-chopper-italika-tc-300-negra/up/MLMU3007051693"
-ruta2 = "https://www.amazon.com.mx/dp/B07G7CHRQY/?coliid=I3MMYSO5HGSFQM&colid=3AZBLI2SFHTWM&ref_=list_c_wl_lv_ov_lig_dp_it&th=1&psc=1"
-
-
 def save_data(product: str, date: str, price: int):   # save the data in a database file
     data = os.path.join(os.path.dirname(__file__), 'datos.db')  # it is required to define absolute path
     connection = sqlite3.connect(data)
     cursor = connection.cursor()
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS {product}(fecha TEXT,precio INTEGER)")
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS {product}(fecha TEXT, precio INTEGER)")
     cursor.execute(f"INSERT INTO {product} (fecha, precio) VALUES (?, ?)", (date, price))
     connection.commit()
     connection.close()
@@ -43,8 +38,7 @@ def graph_data(table):
     df = pd.read_sql_query(query, conn)
     conn.close()
 
-    x_ax = []
-    y_ax = []
+    x_ax, y_ax = [], []
     for f in range(len(df['fecha'])):
         if f == 0:
             x_ax.append(df['fecha'][f].split(' ')[0])
