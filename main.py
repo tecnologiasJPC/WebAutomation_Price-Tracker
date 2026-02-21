@@ -20,6 +20,8 @@ import numpy as np
 
 products = {'motorcycle': "https://www.mercadolibre.com.mx/motocicleta-chopper-italika-tc-300-negra/up/MLMU3007051693",
             'celular': "https://www.mercadolibre.com.mx/asus-rog-phone-9-pro-negro-512gb-16gb-celular-snapdragon-8-elite-telefono-5g-dual-sim-185-hz-gamer-phone-con-gatillos-5800mah-smartphone-android-15/p/MLM46935405",
+            'caja_dewalt': "https://www.mercadolibre.com.mx/caja-apilable-con-organizador-dewalt-dwst17803/up/MLMU722706915",
+            'creatina': "https://www.mercadolibre.com.mx/birdman-creatina-monohidratada-en-polvo-de-alta-pureza-90-servicios-450g-sabor-natural/p/MLM18625838",
             'ram': "https://www.amazon.com.mx/Kingston-Impact-Memoria-Laptop-Capacidad/dp/B09T95TJ1M",
             'backpack': "https://www.amazon.com.mx/dp/B074PYX59S"}
 
@@ -142,8 +144,8 @@ class AliexpressPage(BasePage):
 
 if __name__ == '__main__':
     #open_webpages()
-    graph_data(list(products.keys())[2])
-    sys.exit()
+    #graph_data(list(products.keys())[2])
+    #sys.exit()
 
     items = list(products.keys())
     options = webdriver.ChromeOptions()
