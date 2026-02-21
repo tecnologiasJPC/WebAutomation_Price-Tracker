@@ -162,8 +162,8 @@ if __name__ == '__main__':
     driver.maximize_window()
 
     for item in items:
-        pag1 = BasePage.web_page(driver, products[item])
-        price = pag1.get_price()
+        page = BasePage.web_page(driver, products[item])
+        price = page.get_price()
         moment = datetime.datetime.now()
         date = str(moment).split('.')[0]
         if price is not None:
@@ -172,5 +172,5 @@ if __name__ == '__main__':
         else:
             print(f"Product {item} not available")
         time.sleep(3)
-    pag1.close_browser()
+    page.close_browser()
 
