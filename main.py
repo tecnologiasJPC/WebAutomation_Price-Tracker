@@ -23,9 +23,10 @@ products = {'motorcycle': "https://www.mercadolibre.com.mx/motocicleta-chopper-i
             'caja_dewalt': "https://www.mercadolibre.com.mx/caja-apilable-con-organizador-dewalt-dwst17803/up/MLMU722706915",
             'creatina': "https://www.mercadolibre.com.mx/birdman-creatina-monohidratada-en-polvo-de-alta-pureza-90-servicios-450g-sabor-natural/p/MLM18625838",
             'ram': "https://www.amazon.com.mx/Kingston-Impact-Memoria-Laptop-Capacidad/dp/B09T95TJ1M",
-            'backpack': "https://www.amazon.com.mx/dp/B074PYX59S"}
-
-route = "https://es.aliexpress.com/item/1005002527423374.html?spm=a2g0o.order_list.order_list_main.11.19b1194dhpuB3C&gatewayAdapt=glo2esp"
+            'backpack': "https://www.amazon.com.mx/dp/B074PYX59S",
+            'flange_simple': "https://es.aliexpress.com/item/1005002527423374.html?spm=a2g0o.order_list.order_list_main.11.19b1194dhpuB3C&gatewayAdapt=glo2esp",
+            'flange_black_6': "https://es.aliexpress.com/item/1005009592843268.html?spm=a2g0o.order_list.order_list_main.4.27ae194d7aRR4p&gatewayAdapt=glo2esp",
+            'flange_black_5': "https://es.aliexpress.com/item/1005002439971089.html?spm=a2g0o.order_list.order_list_main.62.27ae194d7aRR4p&gatewayAdapt=glo2esp"}
 
 
 def save_data(product: str, date: str, price: int):   # save the data in a database file
@@ -69,6 +70,17 @@ def graph_data(table):
 
 
 class BasePage:
+
+    @staticmethod
+    def web_page(driv, liga):
+        if 'mercadolibre.com' in liga:
+            return MercadoLibrePage(driv, liga)
+        elif 'amazon.com' in liga:
+            return AmazonPage(driv, liga)
+        elif 'aliexpress.com' in liga:
+            return AliexpressPage(driv, liga)
+        else:
+            return BasePage(driv, liga)
 
     def __new__(cls, driver, liga):
         if 'mercadolibre.com' in liga:
@@ -133,14 +145,16 @@ class AmazonPage(BasePage):
 
 
 class AliexpressPage(BasePage):
-    __locator = By.CLASS_NAME
-    __name = "price-default--current--F8OlYIo"
+    __locator = By.CSS_SELECTOR
+    __name = "span.price-default--original--CWcHOit"
 
     def get_price(self):
         super().open_page(self.link)
-        text_price = super().find_element(self.__locator, self.__name)
-        return text_price.text
-
+        span_price = super().find_element(self.__locator, self.__name)
+        BDI = span_price.find_element(By.TAG_NAME, "bdi")
+        decimal_value = BDI.text.split('$')[1].replace(',', '')
+        integer_value = int(round(float(decimal_value)))
+        return str(integer_value)
 
 if __name__ == '__main__':
     #open_webpages()
@@ -159,8 +173,8 @@ if __name__ == '__main__':
     #sys.exit()
 
     for item in items:
-        pag1 = BasePage(driver, products[item])
-        price = pag1.get_price()
+        page = BasePage.web_page(driver, products[item])
+        price = page.get_price()
         moment = datetime.datetime.now()
         date = str(moment).split('.')[0]
         if price is not None:
@@ -169,5 +183,5 @@ if __name__ == '__main__':
         else:
             print(f"Product {item} not available")
         time.sleep(3)
-    pag1.close_browser()
+    page.close_browser()
 
