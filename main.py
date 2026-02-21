@@ -23,7 +23,11 @@ products = {'motorcycle': "https://www.mercadolibre.com.mx/motocicleta-chopper-i
             'ram': "https://www.amazon.com.mx/Kingston-Impact-Memoria-Laptop-Capacidad/dp/B09T95TJ1M",
             'backpack': "https://www.amazon.com.mx/dp/B074PYX59S"}
 
+alis = ["https://es.aliexpress.com/item/1005002527423374.html?spm=a2g0o.order_list.order_list_main.11.19b1194dhpuB3C&gatewayAdapt=glo2esp",
+        "https://es.aliexpress.com/item/1005009592843268.html?spm=a2g0o.order_list.order_list_main.4.27ae194d7aRR4p&gatewayAdapt=glo2esp"]
+
 route = "https://es.aliexpress.com/item/1005002527423374.html?spm=a2g0o.order_list.order_list_main.11.19b1194dhpuB3C&gatewayAdapt=glo2esp"
+route2 = "https://es.aliexpress.com/item/1005009592843268.html?spm=a2g0o.order_list.order_list_main.4.27ae194d7aRR4p&gatewayAdapt=glo2esp"
 
 
 def save_data(product: str, date: str, price: int):   # save the data in a database file
@@ -142,14 +146,16 @@ class AmazonPage(BasePage):
 
 
 class AliexpressPage(BasePage):
-    __locator = By.CLASS_NAME
-    __name = "price-default--current--F8OlYIo"
+    __locator = By.CSS_SELECTOR
+    __name = "span.price-default--original--CWcHOit"
 
     def get_price(self):
         super().open_page(self.link)
-        text_price = super().find_element(self.__locator, self.__name)
-        return text_price.text
-
+        span_price = super().find_element(self.__locator, self.__name)
+        BDI = span_price.find_element(By.TAG_NAME, "bdi")
+        decimal_value = BDI.text.split('$')[1].replace(',', '')
+        integer_value = int(round(float(decimal_value)))
+        return str(integer_value)
 
 if __name__ == '__main__':
     #open_webpages()
@@ -160,6 +166,13 @@ if __name__ == '__main__':
     options = webdriver.ChromeOptions()
     driver = ch.Chrome(options=options, version_main=144)
     driver.maximize_window()
+
+    for ali in alis:
+        pagina = BasePage.web_page(driver, ali)
+        texto = pagina.get_price()
+        print(f"Este es el precio obtenido {texto}")
+    driver.quit()
+    sys.exit()
 
     for item in items:
         page = BasePage.web_page(driver, products[item])
