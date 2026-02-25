@@ -158,19 +158,13 @@ class AliexpressPage(BasePage):
 
 if __name__ == '__main__':
     #open_webpages()
-    #graph_data(list(products.keys())[2])
+    #graph_data('ram')
     #sys.exit()
 
     items = list(products.keys())
     options = webdriver.ChromeOptions()
     driver = ch.Chrome(options=options, version_main=144)
     driver.maximize_window()
-
-    #pag1 = BasePage(driver, route)
-    #price = pag1.get_price()
-    #print(f"This is the text obtained {price}")
-    #pag1.close_browser()
-    #sys.exit()
 
     for item in items:
         page = BasePage.web_page(driver, products[item])
