@@ -158,7 +158,7 @@ class AliexpressPage(BasePage):
 
 if __name__ == '__main__':
     #open_webpages()
-    #graph_data('ram')
+    #graph_data('motorcycle')
     #sys.exit()
 
     items = list(products.keys())
