@@ -172,7 +172,7 @@ if __name__ == '__main__':
         moment = datetime.datetime.now()
         date = str(moment).split('.')[0]
         if price is not None:
-            print(f"For {item} in {date} the price is ${price}")
+            print(f"For {item} in {date} the price obtained is ${price}")
             save_data(item, date, int(price))
         else:
             print(f"Product {item} not available")
