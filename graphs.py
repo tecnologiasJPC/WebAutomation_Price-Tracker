@@ -32,5 +32,5 @@ def graph_data(table):
     plt.grid(True)
     plt.show()
 
-graph_data('motorcycle')
+graph_data('ram')
 
