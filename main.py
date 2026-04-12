@@ -39,7 +39,7 @@ def save_data(product: str, date: str, price: int):   # save the data in a datab
     connection.close()
 
 
-def graph_data(table):
+def graph_data(table):  # graph the data of the price of a product over time, it receives the name of the table to graph, which is the same as the name of the product
     data = os.path.join(os.path.dirname(__file__), 'datos.db')
     conn = sqlite3.connect(data)
 
