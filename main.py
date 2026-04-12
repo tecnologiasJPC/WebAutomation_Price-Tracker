@@ -15,7 +15,6 @@ import datetime
 import sqlite3
 import time
 import os
-import sys
 import numpy as np
 
 products = {'motorcycle': "https://www.mercadolibre.com.mx/motocicleta-chopper-italika-tc-300-negra/up/MLMU3007051693",
