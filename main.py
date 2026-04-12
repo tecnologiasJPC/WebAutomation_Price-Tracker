@@ -163,7 +163,7 @@ if __name__ == '__main__':
 
     items = list(products.keys())
     options = webdriver.ChromeOptions()
-    driver = ch.Chrome(options=options, version_main=144)
+    driver = ch.Chrome(options=options, version_main=146)
     driver.maximize_window()
 
     for item in items:
