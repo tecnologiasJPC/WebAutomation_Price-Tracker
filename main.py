@@ -141,6 +141,8 @@ class AmazonPage(BasePage):
             except ElementClickInterceptedException:
                 pass
         text_price = super().find_element(self.__locator, self.__name)
+        if text_price is None:
+            return None
         return text_price.text.replace(',', '')
 
 
@@ -163,7 +165,7 @@ if __name__ == '__main__':
 
     items = list(products.keys())
     options = webdriver.ChromeOptions()
-    driver = ch.Chrome(options=options, version_main=146)
+    driver = ch.Chrome(options=options, version_main=148)
     driver.maximize_window()
 
     for item in items:
